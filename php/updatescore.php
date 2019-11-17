@@ -3,16 +3,10 @@
 
   $conn = mysqli_connect($database_host, $database_user, $database_pass, $database_name);
   
-  // needs username, recyling type, amount
-  //$username = $_POST['username'];
-  $username = $_GET['username'];
-
-  if (!filter_var($username, FILTER_VALIDATE_EMAIL))
-    die("Invalid email.");
-
+  $cardid = $_GET['cardid'];
 
   $type = $_GET['type'];
-  mappings = array(
+  $mappings = array(
      "1" => "ScoreFood",
      "2" => "ScorePaper",
      "3" => "ScorePBottles",
@@ -24,23 +18,28 @@
 
   $field = $mappings[$type];
 
-  $stmt = $conn->prepare("SELECT $field FROM EmployeeInfo WHERE Email = ?");
-  $stmt->bind_param("s", $username);
+  $stmt = $conn->prepare("SELECT $field,ScoreTotal,TeamID FROM EmployeeInfo WHERE CardId = ?");
+  $stmt->bind_param("s", $cardid);
 
   $stmt->execute();
-  $res = $stmt->get_result();
 
-  $stmt.close();
 
-  $old_score = $res->fetch_assoc()[$field];
+  if ($res = $stmt->get_result())
+    $result = $res->fetch_assoc();
+  echo $result;
+  $old_score = $result[$field];
+  $old_total = $result["ScoreTotal"];
 
-  var_dump($old_score);
+  $TeamID = $result["TeamID"];
 
   $new_score = $old_score + 1;
+  $new_total = $old_total + 1;
 
-  $stmt = $conn->prepare("UPDATE EmployeeInfo SET $field = $new_score WHERE Email = ?");
-  $stmt->bind_param("s", $username);
+  $stmt = $conn->prepare("UPDATE EmployeeInfo SET $field = $new_score, ScoreTotal = $new_total WHERE CardId = ?");
+  $stmt->bind_param("s", $cardid);
 
   $stmt->execute();
   $stmt->close();
+
+  $conn->query("UPDATE TeamInfo SET TeamTotal = $new_total WHERE TeamID = $TeamID");
 ?>

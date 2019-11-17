@@ -11,7 +11,7 @@
 
 	<div class="header">
 	
-		<a href="index.html">
+		<a href="index.php">
 			<img style="float: left;" src="home.png">
 		</a>
 		<h1>Hello!</h1>
