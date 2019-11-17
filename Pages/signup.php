@@ -4,9 +4,11 @@
   $conn = mysqli_connect($database_host, $database_user, $database_pass, $database_name);
   
   $username = $_POST['username'];
+  $AllGood = True;
 
   if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
-    echo "<h1>INVALID EMAIL FUCK OFF</h1>";
+    echo "<h1>Please Try Againy</h1>";
+    $AllGood = False;
     exit(0);
   }
 
@@ -23,6 +25,7 @@
     $teamnumber = $res->fetch_assoc();
   } else {
     echo "Couldn't find team number from team name";
+    $AllGood = False
     exit(0);
   }
 
@@ -36,5 +39,10 @@
     echo "valid";
   } else {
     echo "invalid";
+    $AllGood = False;
   }
+
+if($AllGood == True){
+  header("Location: EmployeeAccount.php"}
+
 ?>
