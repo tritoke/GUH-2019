@@ -26,7 +26,7 @@
 
   if ($res = $stmt->get_result())
     $result = $res->fetch_assoc();
-  echo $result;
+
   $old_score = $result[$field];
   $old_total = $result["ScoreTotal"];
 
