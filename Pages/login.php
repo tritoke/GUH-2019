@@ -15,7 +15,7 @@
     $hash = array_pop($rows);
     
     if (password_verify($password, $hash)) {
-      echo "valid";
+      header("Location: EmployeeAccount.php");
     } else {
       echo "invalid";
     }
