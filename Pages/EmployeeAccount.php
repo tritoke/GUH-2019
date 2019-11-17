@@ -18,10 +18,10 @@
 	</div>
 	
 	<div class="col stats">
-		<p>hi<p>		
+		<p>Local Stats TBD<p>		
 	</div>
 	<div class="col LeaderBoard">
-		<p>heelo</p>		
+		<p>Team Leaderboard TBD</p>		
 	</div>
 
 	<div class="footer">
