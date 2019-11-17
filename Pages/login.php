@@ -5,17 +5,19 @@
   
   $username = $_POST['username'];
   $password = $_POST['password'];
-  // get password hash to compare against
-  // use prepared statements to prevent sqli
-  $stmt = $conn->prepare("SELECT PasswordHash FROM EmployeeInfo WHERE email = ?");
-  $stmt->bind_param('s', $username);
+
+  $stmt = $conn->prepare("SELECT PasswordHash FROM EmployeeInfo WHERE Email = ?");
+  $stmt->bind_param("s", $username);
 
   $stmt->execute();
-  $hash = $stmt->get_result()->fetch_assoc();
-  
-  if (password_verify($password, $hash)) {
-    echo "valid";
-  } else {
-    echo "invalid";
+  if ($res = $stmt->get_result()) {
+    $rows = $res->fetch_assoc();
+    $hash = array_pop($rows);
+    
+    if (password_verify($password, $hash)) {
+      echo "valid";
+    } else {
+      echo "invalid";
+    }
   }
 ?>
